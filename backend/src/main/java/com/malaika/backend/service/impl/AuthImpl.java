@@ -46,11 +46,22 @@ public class AuthImpl implements AuthService {
             user= userRepository.findByEmail(dto.getEmail()).
                     orElseThrow(()->new IllegalArgumentException("Invalid email"));
         }
-        if(dto.getPNumber()!=null && !dto.getPNumber().isEmpty() ){
+        else if(dto.getPNumber()!=null && !dto.getPNumber().isEmpty() ){
             user= userRepository.findByPnumber(dto.getPNumber()).
                     orElseThrow(()->new IllegalArgumentException("Invalid Phone Number"));
         }
-        return null;
+        else
+            throw new IllegalArgumentException("Invalid email or phone number");
+
+        if(!passwordEncoder.matches(dto.getPassword(),user.getPassword())){
+            throw new IllegalArgumentException("Invalid password");
+        }
+        
+        String token = jwtService.generateToken(user.getEmail());
+        AuthResponseDto responseDto = authMapper.toDto(user);
+        responseDto.setToken(token);
+
+        return responseDto;
     }
 
 }
