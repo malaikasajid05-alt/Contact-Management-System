@@ -1,6 +1,7 @@
 package com.malaika.backend.controller;
 
 import com.malaika.backend.dto.AuthResponseDto;
+import com.malaika.backend.dto.LoginRequestDto;
 import com.malaika.backend.dto.RegisterRequestDto;
 import com.malaika.backend.service.AuthService;
 import jakarta.validation.Valid;
@@ -21,5 +22,11 @@ public class AuthController {
 
         return authService.register(request);
     }
-
+    @PostMapping("/login")
+    public AuthResponseDto login(
+            @Valid @RequestBody LoginRequestDto request
+    )
+        {
+        return authService.login(request);
+        }
 }
