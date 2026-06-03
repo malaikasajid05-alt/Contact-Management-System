@@ -17,16 +17,16 @@ public class UserServiceImpl implements UserService {
     private final UserProfileMapper userProfileMapper;
     private final PasswordEncoder passwordEncoder;
     @Override
-    public ProfileResponseDto getProfile(Long id) {
-            User user = userRepository.findById(id)
+    public ProfileResponseDto getProfile(String email) {
+            User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         return userProfileMapper.toDto(user);
         }
 
     @Override
-    public void changePassword(Long userId, ChangePasswordDto dto) {
-        User user= userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public void changePassword(String email, ChangePasswordDto dto) {
+        User user= userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("User not found"));
         if(!passwordEncoder.matches(dto.getOldPassword(),user.getPassword())){
             throw new IllegalArgumentException("Invalid password");
         }
