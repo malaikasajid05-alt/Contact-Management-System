@@ -4,6 +4,7 @@ import com.malaika.backend.dto.ChangePasswordDto;
 import com.malaika.backend.dto.ProfileResponseDto;
 import com.malaika.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,18 +14,22 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/{id}")
-    public ProfileResponseDto getProfile(
-            @PathVariable Long id) {
+    @GetMapping("/profile")
+    public ProfileResponseDto getProfile(Authentication authentication) {
 
-        return userService.getProfile(id);
+        String email = authentication.getName();
+
+        return userService.getProfile(email);
     }
-    @PutMapping("/{id}/change-password")
+
+    @PutMapping("/change-password")
     public String changePassword(
-            @PathVariable Long id,
+            Authentication authentication,
             @RequestBody ChangePasswordDto dto) {
 
-        userService.changePassword(id, dto);
+        String email = authentication.getName();
+
+        userService.changePassword(email, dto);
 
         return "Password changed successfully";
     }
