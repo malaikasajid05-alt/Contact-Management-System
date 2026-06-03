@@ -1,5 +1,6 @@
 package com.malaika.backend.controller;
 
+import com.malaika.backend.dto.ChangePasswordDto;
 import com.malaika.backend.dto.ProfileResponseDto;
 import com.malaika.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +18,14 @@ public class UserController {
             @PathVariable Long id) {
 
         return userService.getProfile(id);
+    }
+    @PutMapping("/{id}/change-password")
+    public String changePassword(
+            @PathVariable Long id,
+            @RequestBody ChangePasswordDto dto) {
+
+        userService.changePassword(id, dto);
+
+        return "Password changed successfully";
     }
 }
