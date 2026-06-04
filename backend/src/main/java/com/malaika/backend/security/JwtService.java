@@ -1,19 +1,15 @@
-package com.malaika.backend.service.impl;
+package com.malaika.backend.security;
 
-import com.malaika.backend.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.util.Date;
 
 @Service
-public class JwtServiceImpl implements JwtService {
+public class JwtService {
 
-    // Must be at least 32 characters
     private static final String SECRET_KEY =
             "mysecretkeymysecretkeymysecretkey12";
 
@@ -21,35 +17,28 @@ public class JwtServiceImpl implements JwtService {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
-    @Override
-    public String generateToken(String email) {
+    public String generateToken(Long userId) {
 
         return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(
-                        new Date(System.currentTimeMillis()
-                                + 1000 * 60 * 60 * 24)
-                )
-                .signWith(getSignKey(), SignatureAlgorithm.HS256)
+                .subject(userId.toString())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 86400000))
+                .signWith(getSignKey())
                 .compact();
     }
-
-    @Override
-    public String extractEmail(String token) {
-
-        return extractAllClaims(token).getSubject();
+    public Long extractUserId(String token) {
+        return Long.valueOf(
+                extractAllClaims(token).getSubject()
+        );
     }
 
-    @Override
-    public boolean isTokenValid(String token, String email) {
+    public boolean isTokenValid(String token, Long userId) {
 
-        final String extractedEmail = extractEmail(token);
+        Long extractedUserId = extractUserId(token);
 
-        return extractedEmail.equals(email)
+        return extractedUserId.equals(userId)
                 && !isTokenExpired(token);
     }
-
     private boolean isTokenExpired(String token) {
 
         return extractAllClaims(token)

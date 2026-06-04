@@ -30,9 +30,10 @@ public class Contact {
     private User user;
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Email> email;
+    private List<Email> emails;
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PhoneNo> phoneNo;
+    private List<PhoneNo> phoneNos;
+
 
 }
