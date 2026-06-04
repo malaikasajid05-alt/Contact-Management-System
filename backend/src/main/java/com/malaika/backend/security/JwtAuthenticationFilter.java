@@ -1,6 +1,5 @@
 package com.malaika.backend.security;
 
-import com.malaika.backend.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,16 +40,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token =
                 authHeader.substring(7);
 
-        String subject =
-                jwtService.extractEmail(token);
+        Long userId =
+                jwtService.extractUserId(token);
 
-        if (subject != null &&
+        if (userId != null &&
                 SecurityContextHolder.getContext()
                         .getAuthentication() == null) {
 
             UsernamePasswordAuthenticationToken authToken =
                     new UsernamePasswordAuthenticationToken(
-                            subject,
+                            userId.toString(),
                             null,
                             Collections.emptyList());
 

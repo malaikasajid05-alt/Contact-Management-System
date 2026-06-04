@@ -6,8 +6,8 @@ import com.malaika.backend.dto.AuthResponseDto;
 import com.malaika.backend.entity.User;
 import com.malaika.backend.mapper.AuthMapper;
 import com.malaika.backend.repository.UserRepository;
+import com.malaika.backend.security.JwtService;
 import com.malaika.backend.service.AuthService;
-import com.malaika.backend.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,19 +23,26 @@ public class AuthImpl implements AuthService {
     @Override
     public AuthResponseDto register(RegisterRequestDto dto) {
 
-        if(userRepository.existsByEmail(dto.getEmail()) && dto.getEmail()!=null){
+        if (dto.getEmail() != null &&
+                userRepository.existsByEmail(dto.getEmail())) {
             throw new IllegalArgumentException("Email already registered");
         }
-        if(userRepository.existsByPnumber(dto.getPnumber()) && dto.getPnumber()!=null){
+
+        if (dto.getPnumber() != null &&
+                userRepository.existsByPnumber(dto.getPnumber())) {
             throw new IllegalArgumentException("Phone Number already registered");
         }
 
         User user = authMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        userRepository.save(user);
-        String token = jwtService.generateToken(user.getEmail());
-        AuthResponseDto responseDto = authMapper.toDto(user);
+
+        User savedUser = userRepository.save(user);
+
+        String token = jwtService.generateToken(savedUser.getId());
+
+        AuthResponseDto responseDto = authMapper.toDto(savedUser);
         responseDto.setToken(token);
+
         return responseDto;
     }
 
@@ -56,8 +63,8 @@ public class AuthImpl implements AuthService {
         if(!passwordEncoder.matches(dto.getPassword(),user.getPassword())){
             throw new IllegalArgumentException("Invalid password");
         }
-        
-        String token = jwtService.generateToken(user.getEmail());
+
+        String token = jwtService.generateToken(user.getId());
         AuthResponseDto responseDto = authMapper.toDto(user);
         responseDto.setToken(token);
 
