@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundException ex) {
+    public ResponseEntity<ErrorResponse> handleUserNotFound(
+            UserNotFoundException ex) {
 
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
@@ -24,7 +25,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ContactNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleContactNotFound(ContactNotFoundException ex) {
+    public ResponseEntity<ErrorResponse> handleContactNotFound(
+            ContactNotFoundException ex) {
 
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
@@ -36,21 +38,37 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(EmailNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleEmailNotFound(EmailNotFoundException ex) {
+    @ExceptionHandler(ContactDetailNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleContactDetailNotFound(
+            ContactDetailNotFoundException ex) {
 
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
-                "EMAIL_NOT_FOUND",
+                "CONTACT_DETAIL_NOT_FOUND",
                 ex.getMessage()
         );
 
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgument(
+            IllegalArgumentException ex) {
+
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "BAD_REQUEST",
+                ex.getMessage()
+        );
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
+    public ResponseEntity<ErrorResponse> handleGeneric(
+            Exception ex) {
 
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
