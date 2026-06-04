@@ -21,7 +21,5 @@ public class ContactDto {
 
     private Long userId;
 
-    private List<EmailDto> emails;
-
-    private List<PhoneNoDto> phoneNos;
+    private List<ContactDetailDto> details;
 }

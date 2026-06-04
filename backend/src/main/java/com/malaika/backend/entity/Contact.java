@@ -1,11 +1,12 @@
 package com.malaika.backend.entity;
+
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Table(name ="Contact")
+@Table(name = "contact")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,27 +14,21 @@ public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name= "first_name", nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name= "last_name")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name= "title")
+    @Column(name = "title")
     private String title;
 
-    @ManyToOne(fetch =  FetchType.LAZY)
-    @JoinColumn(name="user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Email> emails;
-
-    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PhoneNo> phoneNos;
-
-
+    private List<ContactDetail> details;
 }
