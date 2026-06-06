@@ -10,7 +10,6 @@ const initials = (name) =>
         .join('')
         .toUpperCase() || 'C';
 
-// Deterministic colorful gradient per contact name
 const AVATAR_COLORS = [
     ['#7C3AED', '#6366F1'], // purple → indigo
     ['#2563EB', '#06B6D4'], // blue → cyan
