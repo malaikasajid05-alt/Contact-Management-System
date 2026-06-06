@@ -1,0 +1,28 @@
+.section {
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  margin: 0 0 1rem;
+  color: var(--purple-900);
+  font-size: 1.05rem;
+}
+
+.dynamicRow {
+  display: grid;
+  grid-template-columns: 12rem minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.readonly {
+  border-radius: var(--radius-md);
+  background: var(--background);
+  padding: 1rem;
+}
+
+@media (max-width: 42rem) {
+  .dynamicRow {
+    grid-template-columns: 1fr;
+  }
+}

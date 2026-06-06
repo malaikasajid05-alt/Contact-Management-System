@@ -1,0 +1,68 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  background: rgba(31, 22, 51, 0.48);
+  padding: 1rem;
+}
+
+.modal {
+  /* default — md */
+  width: min(44rem, 100%);
+  max-height: min(90vh, 52rem);
+  overflow: auto;
+  border-radius: var(--radius-lg);
+  background: #ffffff;
+  box-shadow: var(--shadow-lg);
+}
+
+/* size variants */
+.sm { width: min(22rem, 100%); }
+.md { width: min(44rem, 100%); }
+.lg { width: min(56rem, 100%); }
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 0.0625rem solid var(--border);
+  padding: 1.25rem 1.5rem;
+}
+
+.title {
+  margin: 0;
+  color: var(--purple-900);
+  font-size: 1.35rem;
+}
+
+.close {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(124, 58, 237, 0.1);
+  color: var(--purple-700);
+}
+
+.body {
+  padding: 1.5rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  border-top: 0.0625rem solid var(--border);
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+@media (max-width: 36rem) {
+  .footer {
+    flex-direction: column-reverse;
+  }
+}
