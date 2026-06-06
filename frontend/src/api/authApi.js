@@ -2,7 +2,6 @@ import { apiRequest } from './apiClient';
 
 const isEmail = (value) => value.trim().includes('@');
 
-// Strips null/undefined fields so they are never sent in the JSON body
 const compact = (obj) =>
     Object.fromEntries(Object.entries(obj).filter(([, v]) => v != null && v !== ''));
 

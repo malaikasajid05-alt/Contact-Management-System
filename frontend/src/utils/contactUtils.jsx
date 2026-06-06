@@ -6,7 +6,6 @@ export const normalizeContact = (contact = {}) => {
     const emails = details.filter((detail) => (detail.type || '').toLowerCase() === 'email');
     const phones = details.filter((detail) => (detail.type || '').toLowerCase() === 'phone');
 
-    // Try every possible field name the backend might use
     const rawTitle =
         contact.jobTitle ||
         contact.job_title ||
@@ -49,7 +48,6 @@ export const splitDetails = (details = []) => ({
         })),
 });
 
-// Send both field names so it works regardless of what the backend expects
 export const buildContactPayload = (values) => {
     const titleValue = (values.title || values.jobTitle || '').trim();
     return {
@@ -66,7 +64,6 @@ export const buildDetailPayload = (detail) => ({
     value: detail.value,
 });
 
-// Used by Dashboard to categorise contacts
 const WORK_LABELS = ['work', 'business'];
 
 export const isWorkContact = (contact) => {
