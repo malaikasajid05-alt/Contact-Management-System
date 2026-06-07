@@ -17,10 +17,12 @@ public interface ContactDetailMapper {
     ContactDetailDto toDto(ContactDetail entity);
 
     default DetailType map(String value) {
+
         return value == null ? null : DetailType.valueOf(value);
     }
 
     default String map(DetailType type) {
+
         return type == null ? null : type.name();
     }
 }

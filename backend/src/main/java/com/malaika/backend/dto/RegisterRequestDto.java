@@ -1,5 +1,6 @@
 package com.malaika.backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,9 @@ import lombok.NoArgsConstructor;
 public class RegisterRequestDto {
     String name;
     String email;
-    String pnumber;
-    String password;
 
+    @JsonProperty("pnumber")
+    String pnumber;
+
+    String password;
 }

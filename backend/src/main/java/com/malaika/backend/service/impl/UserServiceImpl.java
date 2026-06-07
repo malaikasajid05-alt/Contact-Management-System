@@ -7,59 +7,56 @@ import com.malaika.backend.exception.UserNotFoundException;
 import com.malaika.backend.mapper.UserProfileMapper;
 import com.malaika.backend.repository.UserRepository;
 import com.malaika.backend.security.CurrentUser;
-import com.malaika.backend.service.UserService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Slf4j
 @Service
-@RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl {
 
     private final UserRepository userRepository;
-    private final UserProfileMapper userProfileMapper;
-    private final PasswordEncoder passwordEncoder;
+    private final UserProfileMapper mapper;
     private final CurrentUser currentUser;
+    private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public ProfileResponseDto getProfile() {
-
-        Long userId = currentUser.getCurrentUserId();
-
-        log.info("Fetching profile for userId: {}", userId);
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> {
-                    log.error("User not found with id: {}", userId);
-                    return new UserNotFoundException("User not found with id: " + userId);
-                });
-
-        return userProfileMapper.toDto(user);
+    public UserServiceImpl(UserRepository userRepository,
+                           UserProfileMapper mapper,
+                           CurrentUser currentUser,
+                           PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.mapper = mapper;
+        this.currentUser = currentUser;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @Override
+    public ProfileResponseDto getProfile() {
+        Long userId = currentUser.getCurrentUserId();
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        return mapper.toDto(user);
+    }
+
     public void changePassword(ChangePasswordDto dto) {
 
         Long userId = currentUser.getCurrentUserId();
 
-        log.info("Password change request for userId: {}", userId);
-
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> {
-                    log.error("User not found for password change: {}", userId);
-                    return new UserNotFoundException("User not found with id: " + userId);
-                });
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        if (!passwordEncoder.matches(dto.getOldPassword(), user.getPassword())) {
-            log.warn("Invalid old password attempt for userId: {}", userId);
-            throw new IllegalArgumentException("Invalid old password");
+        if (!passwordEncoder.matches(dto.getCurrentPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Current password is incorrect");
+        }
+
+        if (!dto.getNewPassword().equals(dto.getConfirmPassword())) {
+            throw new IllegalArgumentException("New password and confirm password do not match");
+        }
+
+        if (dto.getNewPassword().equals(dto.getCurrentPassword())) {
+            throw new IllegalArgumentException("New password must be different from current password");
         }
 
         user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
         userRepository.save(user);
-
-        log.info("Password changed successfully for userId: {}", userId);
     }
 }

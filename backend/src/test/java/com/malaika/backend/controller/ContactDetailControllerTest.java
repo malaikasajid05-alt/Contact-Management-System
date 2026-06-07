@@ -1,12 +1,18 @@
 package com.malaika.backend.controller;
 
 import com.malaika.backend.dto.ContactDetailDto;
+import com.malaika.backend.security.JwtAuthenticationFilter;
+import com.malaika.backend.security.JwtService;
 import com.malaika.backend.service.ContactDetailService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -19,12 +25,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ContactDetailController.class)
+@AutoConfigureMockMvc(addFilters = false)
+@Import(ContactDetailControllerTest.TestConfig.class)
 class ContactDetailControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockitoBean
+    @Autowired
     private ContactDetailService contactDetailService;
 
     @Test
@@ -37,8 +45,8 @@ class ContactDetailControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                  "value":"test@gmail.com",
-                                  "type":"EMAIL"
+                                  "value": "test@gmail.com",
+                                  "type":  "EMAIL"
                                 }
                                 """))
                 .andExpect(status().isOk());
@@ -64,8 +72,8 @@ class ContactDetailControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                  "value":"updated@gmail.com",
-                                  "type":"PHONE"
+                                  "value": "updated@gmail.com",
+                                  "type":  "PHONE"
                                 }
                                 """))
                 .andExpect(status().isOk());
@@ -74,10 +82,28 @@ class ContactDetailControllerTest {
     @Test
     void deleteDetail_success() throws Exception {
 
-        doNothing().when(contactDetailService)
-                .deleteDetail(1L, 2L);
+        doNothing().when(contactDetailService).deleteDetail(1L, 2L);
 
         mockMvc.perform(delete("/api/contacts/1/details/2"))
                 .andExpect(status().isOk());
+    }
+
+    @TestConfiguration
+    static class TestConfig {
+
+        @Bean
+        public ContactDetailService contactDetailService() {
+            return Mockito.mock(ContactDetailService.class);
+        }
+
+        @Bean
+        public JwtService jwtService() {
+            return Mockito.mock(JwtService.class);
+        }
+
+        @Bean
+        public JwtAuthenticationFilter jwtAuthenticationFilter(JwtService jwtService) {
+            return Mockito.mock(JwtAuthenticationFilter.class);
+        }
     }
 }

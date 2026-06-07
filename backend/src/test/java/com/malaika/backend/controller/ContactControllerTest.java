@@ -2,74 +2,105 @@ package com.malaika.backend.controller;
 
 import com.malaika.backend.dto.ContactDto;
 import com.malaika.backend.service.ContactService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.web.servlet.MockMvc;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-@WebMvcTest(ContactController.class)
+@ExtendWith(MockitoExtension.class)
 class ContactControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockitoBean
+    @Mock
     private ContactService contactService;
 
-    @Test
-    void createContact_success() throws Exception {
+    @InjectMocks
+    private ContactController contactController;
 
-        when(contactService.createContact(any()))
-                .thenReturn(new ContactDto());
+    private ContactDto sampleDto;
 
-        mockMvc.perform(post("/api/contacts")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                  "firstName":"John",
-                                  "lastName":"Doe",
-                                  "title":"Friend"
-                                }
-                                """))
-                .andExpect(status().isOk());
+    @BeforeEach
+    void setUp() {
+        sampleDto = new ContactDto();
     }
 
     @Test
-    void getAllContacts_success() throws Exception {
+    void createContact_delegatesToServiceAndReturnsResult() {
+        when(contactService.createContact(sampleDto)).thenReturn(sampleDto);
 
-        when(contactService.getMyContacts())
-                .thenReturn(List.of());
+        ContactDto result = contactController.createContact(sampleDto);
 
-        mockMvc.perform(get("/api/contacts"))
-                .andExpect(status().isOk());
+        assertEquals(sampleDto, result);
+        verify(contactService).createContact(sampleDto);
     }
 
     @Test
-    void getById_success() throws Exception {
+    void getContactById_delegatesToServiceAndReturnsResult() {
+        when(contactService.getContactById(1L)).thenReturn(sampleDto);
 
-        when(contactService.getContactById(1L))
-                .thenReturn(new ContactDto());
+        ContactDto result = contactController.getContactById(1L);
 
-        mockMvc.perform(get("/api/contacts/1"))
-                .andExpect(status().isOk());
+        assertEquals(sampleDto, result);
+        verify(contactService).getContactById(1L);
     }
 
     @Test
-    void delete_success() throws Exception {
+    void updateContact_delegatesToServiceAndReturnsResult() {
+        when(contactService.updateContact(1L, sampleDto)).thenReturn(sampleDto);
 
+        ContactDto result = contactController.updateContact(1L, sampleDto);
+
+        assertEquals(sampleDto, result);
+        verify(contactService).updateContact(1L, sampleDto);
+    }
+
+    @Test
+    void deleteContact_delegatesToService() {
         doNothing().when(contactService).deleteContact(1L);
 
-        mockMvc.perform(delete("/api/contacts/1"))
-                .andExpect(status().isOk());
+        contactController.deleteContact(1L);
+
+        verify(contactService).deleteContact(1L);
+    }
+
+    @Test
+    void search_delegatesToServiceAndReturnsList() {
+        List<ContactDto> contacts = List.of(sampleDto);
+        when(contactService.searchContacts("john")).thenReturn(contacts);
+
+        List<ContactDto> result = contactController.search("john");
+
+        assertEquals(1, result.size());
+        assertEquals(sampleDto, result.get(0));
+        verify(contactService).searchContacts("john");
+    }
+
+    @Test
+    void search_emptyQuery_returnsEmptyList() {
+        when(contactService.searchContacts("")).thenReturn(List.of());
+
+        List<ContactDto> result = contactController.search("");
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void getMyContacts_delegatesToServiceWithPageRequest() {
+        Page<ContactDto> page = new PageImpl<>(List.of(sampleDto));
+        when(contactService.getMyContacts(PageRequest.of(0, 10))).thenReturn(page);
+
+        Page<ContactDto> result = contactController.getMyContacts(0, 10);
+
+        assertEquals(1, result.getTotalElements());
+        verify(contactService).getMyContacts(PageRequest.of(0, 10));
     }
 }

@@ -5,9 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class ChangePasswordDto {
-    String oldPassword;
-    String newPassword;
+    private String currentPassword;
+    private String newPassword;
+    private String confirmPassword;
 }

@@ -2,7 +2,9 @@ package com.malaika.backend.entity;
 
 import com.malaika.backend.enums.DetailType;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "contact_details")

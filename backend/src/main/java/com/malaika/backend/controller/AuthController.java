@@ -6,7 +6,10 @@ import com.malaika.backend.dto.RegisterRequestDto;
 import com.malaika.backend.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -22,11 +25,11 @@ public class AuthController {
 
         return authService.register(request);
     }
+
     @PostMapping("/login")
     public AuthResponseDto login(
             @Valid @RequestBody LoginRequestDto request
-    )
-        {
+    ) {
         return authService.login(request);
-        }
+    }
 }
