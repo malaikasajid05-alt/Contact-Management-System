@@ -1,0 +1,76 @@
+.authPage {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 1rem;
+}
+
+.authCard {
+  width: min(30rem, 100%);
+  border-radius: 1.75rem;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: var(--shadow-lg);
+  padding: 2rem;
+}
+
+.badge {
+  display: inline-flex;
+  border-radius: 999rem;
+  background: rgba(124, 58, 237, 0.12);
+  color: var(--purple-700);
+  padding: 0.45rem 0.8rem;
+  font-weight: 900;
+}
+
+.title {
+  margin: 1rem 0 0.5rem;
+  color: var(--purple-900);
+  font-size: 2rem;
+}
+
+.subtitle {
+  margin: 0 0 1.5rem;
+  color: var(--muted);
+}
+
+.form {
+  display: grid;
+  gap: 1rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.remember {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.social {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.link {
+  color: var(--purple-700);
+  font-weight: 900;
+}
+
+@media (max-width: 36rem) {
+  .authCard {
+    padding: 1.25rem;
+  }
+
+  .social {
+    grid-template-columns: 1fr;
+  }
+}
