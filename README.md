@@ -238,7 +238,7 @@ jwt.expiration=86400000
 
 ```bash
 cd backend
-mvn spring-boot:run
+.\mvnw spring-boot:run
 ```
 
 > Backend runs at `http://localhost:8080`
