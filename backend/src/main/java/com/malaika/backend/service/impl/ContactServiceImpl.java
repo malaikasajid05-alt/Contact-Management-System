@@ -5,13 +5,15 @@ import com.malaika.backend.entity.Contact;
 import com.malaika.backend.entity.User;
 import com.malaika.backend.exception.ContactNotFoundException;
 import com.malaika.backend.exception.UserNotFoundException;
+import com.malaika.backend.mapper.ContactMapper;
 import com.malaika.backend.repository.ContactRepository;
 import com.malaika.backend.repository.UserRepository;
 import com.malaika.backend.security.CurrentUser;
 import com.malaika.backend.service.ContactService;
-import com.malaika.backend.mapper.ContactMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +29,21 @@ public class ContactServiceImpl implements ContactService {
     private final CurrentUser currentUser;
 
     @Override
+    public List<ContactDto> searchContacts(String query) {
+
+        Long userId = currentUser.getCurrentUserId();
+
+        List<Contact> contacts = contactRepository.searchByUserId(
+                userId,
+                query
+        );
+
+        return contacts.stream()
+                .map(contactMapper::toDto)
+                .toList();
+    }
+
+    @Override
     public ContactDto createContact(ContactDto contactDto) {
 
         Long userId = currentUser.getCurrentUserId();
@@ -40,7 +57,14 @@ public class ContactServiceImpl implements ContactService {
                 });
 
         Contact contact = contactMapper.toEntity(contactDto);
+
         contact.setUser(user);
+
+        if (contact.getDetails() != null && !contact.getDetails().isEmpty()) {
+            contact.getDetails().forEach(detail -> {
+                detail.setContact(contact);
+            });
+        }
 
         Contact saved = contactRepository.save(contact);
 
@@ -66,17 +90,14 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public List<ContactDto> getMyContacts() {
+    public Page<ContactDto> getMyContacts(Pageable pageable) {
 
         Long userId = currentUser.getCurrentUserId();
 
-        log.info("Fetching all contacts for userId: {}", userId);
+        log.info("Fetching contacts for userId: {}", userId);
 
-        List<Contact> contacts = contactRepository.findByUserId(userId);
-
-        return contacts.stream()
-                .map(contactMapper::toDto)
-                .toList();
+        return contactRepository.findByUserId(userId, pageable)
+                .map(contactMapper::toDto);
     }
 
     @Override

@@ -1,13 +1,18 @@
 package com.malaika.backend.controller;
 
-import com.malaika.backend.dto.ChangePasswordDto;
 import com.malaika.backend.dto.ProfileResponseDto;
+import com.malaika.backend.security.JwtAuthenticationFilter;
+import com.malaika.backend.security.JwtService;
 import com.malaika.backend.service.UserService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -18,12 +23,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
+@AutoConfigureMockMvc(addFilters = false)
+@Import(UserControllerTest.TestConfig.class)
 class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockitoBean
+    @Autowired
     private UserService userService;
 
     @Test
@@ -45,10 +52,29 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                  "oldPassword":"123",
-                                  "newPassword":"456"
+                                  "oldPassword": "currentPass123",
+                                  "newPassword": "newSecurePass456"
                                 }
                                 """))
                 .andExpect(status().isOk());
+    }
+
+    @TestConfiguration
+    static class TestConfig {
+
+        @Bean
+        public UserService userService() {
+            return Mockito.mock(UserService.class);
+        }
+
+        @Bean
+        public JwtService jwtService() {
+            return Mockito.mock(JwtService.class);
+        }
+
+        @Bean
+        public JwtAuthenticationFilter jwtAuthenticationFilter(JwtService jwtService) {
+            return Mockito.mock(JwtAuthenticationFilter.class);
+        }
     }
 }
