@@ -83,7 +83,8 @@
 ## 📸 Screenshots
  
 <div align="center">
-### 🔐 Login Page
+
+### 🔐 **Login Page**
 <img width="958" height="436" alt="Screenshot 2026-06-07 011516" src="https://github.com/user-attachments/assets/9e34eef9-0d75-49e2-9c81-90c5b30573c2" />
 
 ### 📝 Register Page
@@ -92,24 +93,31 @@
 ### 📋 Contacts Dashboard
 <img width="956" height="427" alt="Contacts Dashboard" src="https://github.com/user-attachments/assets/db239fdf-de87-4c07-a8c6-3ef0215496c1" />
 <img width="957" height="437" alt="Contacts Dashboard 2" src="https://github.com/user-attachments/assets/be760723-3fd9-4ae4-b078-480a30085787" />
+
 ### 📇 Contacts
+
 <img width="959" height="435" alt="Screenshot 2026-06-07 005240" src="https://github.com/user-attachments/assets/3462af8b-95ce-44f5-9a15-bd42bd7cf503" />
  
 ### ➕ Add Contact
+
 <img width="959" height="429" alt="Screenshot 2026-06-07 005357" src="https://github.com/user-attachments/assets/4c392b2c-1114-410a-835f-86996b452f19" />
 <img width="959" height="432" alt="Screenshot 2026-06-07 005416" src="https://github.com/user-attachments/assets/7ce9d80c-d626-4db2-9147-a26e026828dd" />
 
 ### ✏️ Edit Contact
+
 <img width="955" height="434" alt="Screenshot 2026-06-07 005446" src="https://github.com/user-attachments/assets/e05a7fec-9b6e-4ea3-9bd3-7b238ec6edd9" />
 <img width="959" height="421" alt="Screenshot 2026-06-07 005502" src="https://github.com/user-attachments/assets/1649d1b9-dca2-4937-9c96-6d968a057e65" />
 
 ### 🗑️ Delete Contact
+
 <img width="655" height="343" alt="Screenshot 2026-06-07 005519" src="https://github.com/user-attachments/assets/fce4a46f-f700-4999-8221-e76a8c01809d" />
 
 ### 📤 Import / Export
+
 <img width="955" height="422" alt="Screenshot 2026-06-07 011413" src="https://github.com/user-attachments/assets/ed632d48-6b21-4553-b261-bc2a59024014" />
 
 ### 👤 User Profile
+
 <img width="959" height="431" alt="Screenshot 2026-06-07 005544" src="https://github.com/user-attachments/assets/21f0077f-e2e7-4c97-95a1-6ecf77cf8920" />
 
  
@@ -277,11 +285,12 @@ npm run dev
 ---
 
 ## 🧪 Running Tests
-
+ 
 ```bash
 cd backend
-mvn test
+.\mvnw.cmd test
 ```
+
 
 ---
 
