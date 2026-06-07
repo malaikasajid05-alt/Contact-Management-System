@@ -2,7 +2,6 @@ package com.malaika.backend.mapper;
 
 import com.malaika.backend.dto.ContactDto;
 import com.malaika.backend.entity.Contact;
-import com.malaika.backend.mapper.ContactDetailMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
