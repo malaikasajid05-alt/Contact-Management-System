@@ -1,0 +1,124 @@
+.hero {
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 1.5rem;
+  border-radius: 2rem;
+  background: linear-gradient(135deg, var(--purple-900), var(--purple-700) 52%, var(--indigo-500));
+  color: #ffffff;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  box-shadow: var(--shadow-lg);
+}
+
+.hero::after {
+  position: absolute;
+  right: -5rem;
+  bottom: -6rem;
+  width: 18rem;
+  height: 18rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  content: "";
+}
+
+.hero h1 {
+  margin: 0;
+  max-width: 42rem;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1.05;
+}
+
+.hero p {
+  max-width: 38rem;
+  margin: 1rem 0 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 1.05rem;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat {
+  padding: 1.25rem;
+}
+
+.statIcon {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border-radius: 0.9rem;
+  background: rgba(124, 58, 237, 0.12);
+  color: var(--purple-700);
+  font-size: 1.35rem;
+}
+
+.statValue {
+  margin: 1rem 0 0.2rem;
+  color: var(--purple-900);
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.statLabel {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 64rem) {
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 36rem) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.sectionMeta {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.allLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border: none;
+  background: none;
+  color: var(--purple-600);
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.allLink:hover {
+  color: var(--purple-700);
+  text-decoration: underline;
+}
+
+/* fix grid min width for dashboard cards */
+.grid {
+  grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+}

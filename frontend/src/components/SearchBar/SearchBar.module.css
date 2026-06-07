@@ -1,0 +1,28 @@
+.toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 14rem;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.search {
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  color: var(--muted);
+  transform: translateY(-50%);
+}
+
+.input {
+  padding-left: 2.75rem;
+}
+
+@media (max-width: 56rem) {
+  .toolbar {
+    grid-template-columns: 1fr;
+  }
+}
