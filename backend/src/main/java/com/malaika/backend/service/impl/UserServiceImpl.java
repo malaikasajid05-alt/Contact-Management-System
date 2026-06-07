@@ -7,11 +7,12 @@ import com.malaika.backend.exception.UserNotFoundException;
 import com.malaika.backend.mapper.UserProfileMapper;
 import com.malaika.backend.repository.UserRepository;
 import com.malaika.backend.security.CurrentUser;
+import com.malaika.backend.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserProfileMapper mapper;

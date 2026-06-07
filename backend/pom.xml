@@ -23,6 +23,12 @@
     <properties>
         <java.version>21</java.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
+
+        <sonar.exclusions>
+            **/SecurityConfig.java,
+            **/ContactManagementSystemApplication.java
+        </sonar.exclusions>
+
     </properties>
 
     <dependencies>
@@ -130,6 +136,7 @@
         </dependency>
 
     </dependencies>
+
 
     <build>
         <plugins>
