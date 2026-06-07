@@ -120,7 +120,9 @@
 
 <img width="959" height="431" alt="Screenshot 2026-06-07 005544" src="https://github.com/user-attachments/assets/21f0077f-e2e7-4c97-95a1-6ecf77cf8920" />
 
- 
+### 📊 SonarQube Analysis
+<img width="958" height="464" alt="Screenshot 2026-06-07 031604" src="https://github.com/user-attachments/assets/de2ca97f-155e-430f-830e-f8ae65fc4d05" />
+
 </div>
 
 </div>
