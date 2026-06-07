@@ -1,3 +1,6 @@
+> [!NOTE]
+> The `main` branch contains the complete, production-ready code.
+> The `feature` branch is used for ongoing development and experiments.
 <div align="center">
 
 <h1>📒 Contact Management System</h1>
