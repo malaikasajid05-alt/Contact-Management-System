@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.time.Instant;
 import java.util.Date;
 
 @Service
@@ -24,10 +25,13 @@ public class JwtService {
     }
 
     public String generateToken(Long userId) {
+        Instant now = Instant.now();
+        Instant expiry = now.plusMillis(jwtExpiration);
+
         return Jwts.builder()
                 .subject(userId.toString())
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
+                .issuedAt(toDate(now))
+                .expiration(toDate(expiry))
                 .signWith(getSignKey())
                 .compact();
     }
@@ -37,15 +41,16 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, Long userId) {
-        if (isTokenExpired(token)) {
-            return false;
-        }
-        return extractUserId(token).equals(userId);
+        return !isTokenExpired(token)
+                && extractUserId(token).equals(userId);
     }
 
     private boolean isTokenExpired(String token) {
         try {
-            return extractAllClaims(token).getExpiration().before(new Date());
+            Instant expiration = extractAllClaims(token)
+                    .getExpiration()
+                    .toInstant();
+            return expiration.isBefore(Instant.now());
         } catch (ExpiredJwtException e) {
             return true;
         }
@@ -57,5 +62,10 @@ public class JwtService {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+    }
+
+    @SuppressWarnings("java:S2143")
+    private static Date toDate(Instant instant) {
+        return Date.from(instant);
     }
 }

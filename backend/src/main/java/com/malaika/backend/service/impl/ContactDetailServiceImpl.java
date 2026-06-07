@@ -22,25 +22,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ContactDetailServiceImpl implements ContactDetailService {
 
+    private static final String CONTACT_NOT_FOUND = "Contact not found with id: ";
+
     private final ContactDetailRepository detailRepository;
     private final ContactRepository contactRepository;
     private final ContactDetailMapper mapper;
     private final CurrentUser currentUser;
 
     private void validate(Contact contact, Long userId) {
-        if (!contact.getUser().getId().equals(userId)) {
-            throw new RuntimeException("Not allowed to access this contact");
-        }
+        if (!contact.getUser().getId().equals(userId))
+            throw new ContactNotFoundException("Not allowed to access this contact");
     }
 
     @Override
     public ContactDetailDto addDetail(Long contactId, ContactDetailDto dto) {
-
         Long userId = currentUser.getCurrentUserId();
 
         Contact contact = contactRepository.findById(contactId)
                 .orElseThrow(() ->
-                        new ContactNotFoundException("Contact not found with id: " + contactId));
+                        new ContactNotFoundException(CONTACT_NOT_FOUND + contactId));
 
         validate(contact, userId);
 
@@ -55,12 +55,11 @@ public class ContactDetailServiceImpl implements ContactDetailService {
 
     @Override
     public List<ContactDetailDto> getDetails(Long contactId) {
-
         Long userId = currentUser.getCurrentUserId();
 
         Contact contact = contactRepository.findById(contactId)
                 .orElseThrow(() ->
-                        new ContactNotFoundException("Contact not found with id: " + contactId));
+                        new ContactNotFoundException(CONTACT_NOT_FOUND + contactId));
 
         validate(contact, userId);
 
@@ -72,20 +71,18 @@ public class ContactDetailServiceImpl implements ContactDetailService {
 
     @Override
     public ContactDetailDto updateDetail(Long contactId, Long detailId, ContactDetailDto dto) {
-
         Long userId = currentUser.getCurrentUserId();
 
         Contact contact = contactRepository.findById(contactId)
                 .orElseThrow(() ->
-                        new ContactNotFoundException("Contact not found with id: " + contactId));
+                        new ContactNotFoundException(CONTACT_NOT_FOUND + contactId));
 
         validate(contact, userId);
 
         ContactDetail detail = detailRepository.findByIdAndContactId(detailId, contactId)
                 .orElseThrow(() ->
                         new ContactDetailNotFoundException(
-                                "Detail not found with id: " + detailId + " for contact: " + contactId
-                        ));
+                                "Detail not found with id: " + detailId + " for contact: " + contactId));
 
         detail.setValue(dto.getValue());
         detail.setLabel(dto.getLabel());
@@ -96,20 +93,18 @@ public class ContactDetailServiceImpl implements ContactDetailService {
 
     @Override
     public void deleteDetail(Long contactId, Long detailId) {
-
         Long userId = currentUser.getCurrentUserId();
 
         Contact contact = contactRepository.findById(contactId)
                 .orElseThrow(() ->
-                        new ContactNotFoundException("Contact not found with id: " + contactId));
+                        new ContactNotFoundException(CONTACT_NOT_FOUND + contactId));
 
         validate(contact, userId);
 
         ContactDetail detail = detailRepository.findByIdAndContactId(detailId, contactId)
                 .orElseThrow(() ->
                         new ContactDetailNotFoundException(
-                                "Detail not found with id: " + detailId
-                        ));
+                                "Detail not found with id: " + detailId));
 
         detailRepository.delete(detail);
     }

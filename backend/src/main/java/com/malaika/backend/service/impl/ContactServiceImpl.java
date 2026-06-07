@@ -23,6 +23,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ContactServiceImpl implements ContactService {
 
+    private static final String CONTACT_NOT_FOUND = "Contact not found with id: ";
+
     private final ContactRepository contactRepository;
     private final UserRepository userRepository;
     private final ContactMapper contactMapper;
@@ -30,14 +32,8 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public List<ContactDto> searchContacts(String query) {
-
         Long userId = currentUser.getCurrentUserId();
-
-        List<Contact> contacts = contactRepository.searchByUserId(
-                userId,
-                query
-        );
-
+        List<Contact> contacts = contactRepository.searchByUserId(userId, query);
         return contacts.stream()
                 .map(contactMapper::toDto)
                 .toList();
@@ -45,9 +41,7 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public ContactDto createContact(ContactDto contactDto) {
-
         Long userId = currentUser.getCurrentUserId();
-
         log.info("Creating contact for userId: {}", userId);
 
         User user = userRepository.findById(userId)
@@ -57,33 +51,25 @@ public class ContactServiceImpl implements ContactService {
                 });
 
         Contact contact = contactMapper.toEntity(contactDto);
-
         contact.setUser(user);
 
-        if (contact.getDetails() != null && !contact.getDetails().isEmpty()) {
-            contact.getDetails().forEach(detail -> {
-                detail.setContact(contact);
-            });
-        }
+        if (contact.getDetails() != null && !contact.getDetails().isEmpty())
+            contact.getDetails().forEach(detail -> detail.setContact(contact));
 
         Contact saved = contactRepository.save(contact);
-
         log.info("Contact created with id: {}", saved.getId());
-
         return contactMapper.toDto(saved);
     }
 
     @Override
     public ContactDto getContactById(Long id) {
-
         Long userId = currentUser.getCurrentUserId();
-
         log.info("Fetching contact {} for userId: {}", id, userId);
 
         Contact contact = contactRepository.findByIdAndUserId(id, userId)
                 .orElseThrow(() -> {
                     log.error("Contact not found: {} for userId: {}", id, userId);
-                    return new ContactNotFoundException("Contact not found with id: " + id);
+                    return new ContactNotFoundException(CONTACT_NOT_FOUND + id);
                 });
 
         return contactMapper.toDto(contact);
@@ -91,26 +77,21 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public Page<ContactDto> getMyContacts(Pageable pageable) {
-
         Long userId = currentUser.getCurrentUserId();
-
         log.info("Fetching contacts for userId: {}", userId);
-
         return contactRepository.findByUserId(userId, pageable)
                 .map(contactMapper::toDto);
     }
 
     @Override
     public ContactDto updateContact(Long id, ContactDto contactDto) {
-
         Long userId = currentUser.getCurrentUserId();
-
         log.info("Updating contact {} for userId: {}", id, userId);
 
         Contact contact = contactRepository.findByIdAndUserId(id, userId)
                 .orElseThrow(() -> {
                     log.error("Contact not found for update: {} userId: {}", id, userId);
-                    return new ContactNotFoundException("Contact not found with id: " + id);
+                    return new ContactNotFoundException(CONTACT_NOT_FOUND + id);
                 });
 
         contact.setFirstName(contactDto.getFirstName());
@@ -118,27 +99,22 @@ public class ContactServiceImpl implements ContactService {
         contact.setTitle(contactDto.getTitle());
 
         Contact saved = contactRepository.save(contact);
-
         log.info("Contact updated successfully: {}", id);
-
         return contactMapper.toDto(saved);
     }
 
     @Override
     public void deleteContact(Long id) {
-
         Long userId = currentUser.getCurrentUserId();
-
         log.info("Deleting contact {} for userId: {}", id, userId);
 
         Contact contact = contactRepository.findByIdAndUserId(id, userId)
                 .orElseThrow(() -> {
                     log.error("Contact not found for delete: {} userId: {}", id, userId);
-                    return new ContactNotFoundException("Contact not found with id: " + id);
+                    return new ContactNotFoundException(CONTACT_NOT_FOUND + id);
                 });
 
         contactRepository.delete(contact);
-
         log.info("Contact deleted successfully: {}", id);
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -15,7 +16,7 @@ public class GlobalExceptionHandler {
             UserNotFoundException ex) {
 
         ErrorResponse error = new ErrorResponse(
-                LocalDateTime.now(),
+                LocalDateTime.now(ZoneId.of("UTC")),
                 HttpStatus.NOT_FOUND.value(),
                 "USER_NOT_FOUND",
                 ex.getMessage()
@@ -29,7 +30,7 @@ public class GlobalExceptionHandler {
             ContactNotFoundException ex) {
 
         ErrorResponse error = new ErrorResponse(
-                LocalDateTime.now(),
+                LocalDateTime.now(ZoneId.of("UTC")),
                 HttpStatus.NOT_FOUND.value(),
                 "CONTACT_NOT_FOUND",
                 ex.getMessage()
@@ -43,7 +44,7 @@ public class GlobalExceptionHandler {
             ContactDetailNotFoundException ex) {
 
         ErrorResponse error = new ErrorResponse(
-                LocalDateTime.now(),
+                LocalDateTime.now(ZoneId.of("UTC")),
                 HttpStatus.NOT_FOUND.value(),
                 "CONTACT_DETAIL_NOT_FOUND",
                 ex.getMessage()
@@ -57,7 +58,7 @@ public class GlobalExceptionHandler {
             IllegalArgumentException ex) {
 
         ErrorResponse error = new ErrorResponse(
-                LocalDateTime.now(),
+                LocalDateTime.now(ZoneId.of("UTC")),
                 HttpStatus.BAD_REQUEST.value(),
                 "BAD_REQUEST",
                 ex.getMessage()
@@ -71,7 +72,7 @@ public class GlobalExceptionHandler {
             Exception ex) {
 
         ErrorResponse error = new ErrorResponse(
-                LocalDateTime.now(),
+                LocalDateTime.now(ZoneId.of("UTC")),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "INTERNAL_SERVER_ERROR",
                 "Something went wrong"
