@@ -33,7 +33,7 @@
 
 **📇 Contact Management**
 - Add, View, Edit, Delete contacts
-- Search by name, email, or phone
+- Search by name, email or phone
 - Sort A → Z / Z → A
 - Pagination support
 - Delete confirmation modal
