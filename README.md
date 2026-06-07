@@ -1,8 +1,8 @@
-<div align="center"
+<div align="center">
 
 <h1>📒 Contact Management System</h1>
 
-<p>A full-stack contact management application built with <strong>Spring Boot</strong> and <strong>React</strong> — featuring JWT authentication, smart search, CSV import/export, and a clean, responsive interface.</p>
+<p>A full-stack contact management application built with <strong>Spring Boot</strong> and <strong>React</strong> — featuring JWT authentication, smart search, CSV import/export and a clean, responsive interface.</p>
 
 <br/>
 
@@ -19,6 +19,7 @@
 
 ## ✨ Features
 
+<div align="center">
 <table>
 <tr>
 <td width="50%">
@@ -56,13 +57,16 @@
 </td>
 </tr>
 </table>
+</div>
 
 ---
 
 ## 🛠️ Tech Stack
 
+<div align="center">
+
 | Layer | Technologies |
-|---|---|
+|:---:|:---|
 | **Backend** | Java 21, Spring Boot 3, Spring Security, Spring Data JPA, Hibernate |
 | **Database** | Microsoft SQL Server |
 | **Auth** | JWT (jjwt), BCrypt |
@@ -70,6 +74,48 @@
 | **Testing** | JUnit 5, Mockito |
 | **Code Quality** | SonarQube |
 | **Build** | Maven, npm |
+
+</div>
+
+---
+
+
+## 📸 Screenshots
+ 
+<div align="center">
+### 🔐 Login Page
+<img width="958" height="436" alt="Screenshot 2026-06-07 011516" src="https://github.com/user-attachments/assets/9e34eef9-0d75-49e2-9c81-90c5b30573c2" />
+
+### 📝 Register Page
+<img width="956" height="433" alt="Screenshot 2026-06-07 011533" src="https://github.com/user-attachments/assets/853ec229-d767-4857-895b-065dba8d6750" />
+ 
+### 📋 Contacts Dashboard
+<img width="956" height="427" alt="Contacts Dashboard" src="https://github.com/user-attachments/assets/db239fdf-de87-4c07-a8c6-3ef0215496c1" />
+<img width="957" height="437" alt="Contacts Dashboard 2" src="https://github.com/user-attachments/assets/be760723-3fd9-4ae4-b078-480a30085787" />
+### 📇 Contacts
+<img width="959" height="435" alt="Screenshot 2026-06-07 005240" src="https://github.com/user-attachments/assets/3462af8b-95ce-44f5-9a15-bd42bd7cf503" />
+ 
+### ➕ Add Contact
+<img width="959" height="429" alt="Screenshot 2026-06-07 005357" src="https://github.com/user-attachments/assets/4c392b2c-1114-410a-835f-86996b452f19" />
+<img width="959" height="432" alt="Screenshot 2026-06-07 005416" src="https://github.com/user-attachments/assets/7ce9d80c-d626-4db2-9147-a26e026828dd" />
+
+### ✏️ Edit Contact
+<img width="955" height="434" alt="Screenshot 2026-06-07 005446" src="https://github.com/user-attachments/assets/e05a7fec-9b6e-4ea3-9bd3-7b238ec6edd9" />
+<img width="959" height="421" alt="Screenshot 2026-06-07 005502" src="https://github.com/user-attachments/assets/1649d1b9-dca2-4937-9c96-6d968a057e65" />
+
+### 🗑️ Delete Contact
+<img width="655" height="343" alt="Screenshot 2026-06-07 005519" src="https://github.com/user-attachments/assets/fce4a46f-f700-4999-8221-e76a8c01809d" />
+
+### 📤 Import / Export
+<img width="955" height="422" alt="Screenshot 2026-06-07 011413" src="https://github.com/user-attachments/assets/ed632d48-6b21-4553-b261-bc2a59024014" />
+
+### 👤 User Profile
+<img width="959" height="431" alt="Screenshot 2026-06-07 005544" src="https://github.com/user-attachments/assets/21f0077f-e2e7-4c97-95a1-6ecf77cf8920" />
+
+ 
+</div>
+
+</div>
 
 ---
 
@@ -145,7 +191,7 @@ Before running the project, ensure you have:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/contact-management-system.git
+git clone https://github.com/malaikasajid05-alt/Contact-Management-System.git
 cd contact-management-system
 ```
 
@@ -202,16 +248,22 @@ npm run dev
 
 ### Authentication
 
+<div align="center">
+
 | Method | Endpoint | Description |
-|--------|----------|-------------|
+|:---:|:---|:---|
 | `POST` | `/auth/register` | Register a new user |
 | `POST` | `/auth/login` | Login and receive JWT |
 | `PUT` | `/users/change-password` | Change user password |
 
+</div>
+
 ### Contacts
 
+<div align="center">
+
 | Method | Endpoint | Description |
-|--------|----------|-------------|
+|:---:|:---|:---|
 | `POST` | `/contacts` | Create a contact |
 | `GET` | `/contacts` | Get all contacts (paginated) |
 | `GET` | `/contacts/{id}` | Get a single contact |
@@ -219,6 +271,8 @@ npm run dev
 | `DELETE` | `/contacts/{id}` | Delete a contact |
 | `GET` | `/contacts/export` | Export contacts as CSV |
 | `POST` | `/contacts/import` | Import contacts from CSV |
+
+</div>
 
 ---
 
@@ -244,11 +298,15 @@ mvn sonar:sonar \
 
 ## 👩‍💻 Author
 
+<div align="center">
+
 **Malaika Sajid** — Software Engineering Student
 
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/your-username)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/your-profile)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/malaikasajid05-alt)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/malaika-sajid-5710b8363)
 [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:malaikakh5@gmail.com)
+
+</div>
 
 ---
 
